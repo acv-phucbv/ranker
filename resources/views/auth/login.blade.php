@@ -15,11 +15,11 @@
                             <label for="username" class="col-sm-4 col-form-label text-md-right">{{ __('Username') }}</label>
 
                             <div class="col-md-6">
-                                <input id="username" type="text" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" required autofocus>
+                                <input id="username" type="text" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="identity" value="{{ old('identity') }}" required autofocus>
 
-                                @if ($errors->has('username'))
+                                @if ($errors->has('identity'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('username') }}</strong>
+                                        <strong>{{ $errors->first('identity') }}</strong>
                                     </span>
                                 @endif
                             </div>

@@ -25,7 +25,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -44,6 +44,50 @@ class LoginController extends Controller
      */
     public function username()
     {
-        return 'username';
+        $identity  = request()->get('identity');
+        $fieldName = filter_var($identity, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        request()->merge([$fieldName => $identity]);
+
+        return $fieldName;
+    }
+
+    /**
+     * Validate the user login.
+     * @param Request $request
+     */
+    protected function validateLogin(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'identity' => 'required|string',
+                'password' => 'required|string',
+            ],
+            [
+                'identity.required' => 'Username or email is required',
+                'password.required' => 'Password is required',
+            ]
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @throws ValidationException
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            'identity' => [trans('auth.failed')],
+        ]);
+    }
+
+    protected function redirectTo()
+    {
+        if(auth()->user()->isAdmin()){
+            return $this->redirectTo = '/admin';
+        }
+
+        return $this->redirectTo = '/home';
     }
 }

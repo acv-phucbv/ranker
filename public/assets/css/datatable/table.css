@@ -1,0 +1,6 @@
+table .check-column {
+    width: 10px;
+}
+table .sorting_asc:before, table .sorting_asc:after {
+    content: '';
+}

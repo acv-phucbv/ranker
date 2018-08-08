@@ -12,11 +12,18 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'username' => 'admin',
-            'email' => 'phucbv2101@gmail.com',
-            'password' => bcrypt('secret'),
-            'role' => 1
-        ]);
+        $userDatas = [
+            ['username' => 'admin', 'email' => 'phucbv2101@gmail.com', 'password' => bcrypt('123456'), 'role' => 1],
+            ['username' => 'phucbv', 'email' => 'phucduong9x@gmail.com', 'password' => bcrypt('123456'), 'role' => 2]
+        ];
+        DB::transaction(function () use ($userDatas) {
+            \DB::table('users')->truncate();
+            \DB::table('profiles')->truncate();
+            foreach ($userDatas as $userData) {
+                $user = \App\Models\User::create($userData);
+                $profile = ['user_id' => $user->id];
+                \App\Models\Profile::create($profile);
+            }
+        });
     }
 }

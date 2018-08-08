@@ -32,10 +32,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password', 'firstname', 'lastname', 'describe'
+        'username', 'email', 'password'
     ];
-
-    protected $appends = ['fullname'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -51,7 +49,7 @@ class User extends Authenticatable
     }
 
     protected static $filterable = [
-        'username', 'fulname', 'email'
+        'username', 'email'
     ];
 
     /**
@@ -106,6 +104,13 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new MailResetPasswordToken($token));
+    }
+
+    /*
+     * The user has one profile
+     */
+    public function profile() {
+        return $this->hasOne('App\Models\Profile', 'user_id');
     }
 
     /*

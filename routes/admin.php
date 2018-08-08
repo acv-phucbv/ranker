@@ -6,8 +6,8 @@
 */
 
 Route::get('/', 'Controller@index')->name('admin');
-//
-//Route::get('users', 'UsersController@index')->name('admin.users.index');
+
+Route::get('posts', 'PostsController@index')->name('admin.posts.index');
 //Route::post('users', 'UsersController@store')->name('admin.users.store');
 //Route::get('users/create', 'UsersController@create')->name('admin.users.create');
 //Route::get('users/{user}', 'UsersController@show')->where(['user' => '[0-9]+'])->name('admin.users.show');
