@@ -285,7 +285,7 @@
 
                     <div class="media">
                         <a href="#">
-                            <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="images/admin.jpg">
+                            <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="{{ asset('images/user.png') }}">
                         </a>
                         <div class="media-body">
                             <h2 class="text-white display-6">Jim Doe</h2>

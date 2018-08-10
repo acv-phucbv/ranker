@@ -5,6 +5,13 @@
 @endsection
 @section('content')
     <div class="content mt-3">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>Users</h1>
+            </div>
+        </div>
+    </div>
+    <div class="content mt-3">
         <div class="animated fadeIn">
             <div class="row">
 
@@ -17,25 +24,25 @@
                                     <th class="check-column">
                                         <input type="checkbox" id="group-checkable" value="1" data-item=".checkboxes">
                                     </th>
-                                    <th>Title</th>
-                                    <th>Author</th>
-                                    <th>Categories</th>
-                                    <th>Tags</th>
-                                    <th>Comments</th>
-                                    <th>Date</th>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Posts</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($posts as $post)
-                                    <td>
-                                        <input type="checkbox" class="checkboxes checkbox-id-{{ $post->id }}" name="posts[]" value="{{ $post->id }}">
-                                    </td>
-                                    <td>{{ $post->title }}</td>
-                                    <td>{{ $post->author->profile->fullname }}</td>
-                                    <td>{{ $post->category->name }}</td>
-                                    <td>{{ tag }}</td>
-                                    <td>{{ comments }}</td>
-                                    <td>{{ $post->created_at }}</td>
+                                @foreach($users as $user)
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" class="checkboxes checkbox-id-{{ $user->id }}" name="users[]" value="{{ $user->id }}">
+                                        </td>
+                                        <td>{{ $user->profile->fullname }}</td>
+                                        <td>{{ $user->username }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ \App\Models\User::roles()[$user->role] }}</td>
+                                        <td>{{ 1 }}</td>
+                                    </tr>
                                 @endforeach
                                 </tbody>
                             </table>

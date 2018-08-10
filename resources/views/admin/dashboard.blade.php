@@ -8,7 +8,7 @@
 @include('admin.partials.sidebar')
 <div id="right-panel" class="right-panel">
     @include('admin.partials.header')
-    @include('admin.partials.breadcrumb')
+    {{--@include('admin.partials.breadcrumb')--}}
     <div class="clearfix margin-bottom-20"> </div>
     {{--<div class="layout-message">--}}
         {{--@include('admin.partials.messages')--}}

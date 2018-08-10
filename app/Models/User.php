@@ -44,10 +44,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function getFullnameAttribute() {
-        return $this->attributes['firstname'] . ' ' . $this->attributes['lastname'];
-    }
-
     protected static $filterable = [
         'username', 'email'
     ];

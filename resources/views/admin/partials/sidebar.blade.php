@@ -29,7 +29,7 @@
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Users</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-table"></i><a href="tables-basic.html">All Users</a></li>
+                        <li><i class="fa fa-table"></i><a href="{{ route('admin.users.index') }}">All Users</a></li>
                         <li><i class="fa fa-table"></i><a href="tables-data.html">Add New</a></li>
                     </ul>
                 </li>
