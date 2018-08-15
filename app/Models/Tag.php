@@ -19,15 +19,15 @@ class Tag extends Model
      * @var array
      */
     protected $fillable = [
-        'tag', 'slug'
+        'name', 'slug', 'description'
     ];
 
-    public function setTagAttribute() {
-        return ucwords($this->attributes['tag']);
+    public function setNameAttribute($value) {
+        $this->attributes['name'] = ucwords($value);
     }
 
-    public function getSlugAttribute() {
-        return str_slug($this->attributes['tag']);
+    public function setDescriptionAttribute($value) {
+        $this->attributes['description'] = ucwords($value);
     }
 
     /*

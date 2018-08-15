@@ -19,8 +19,8 @@
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-puzzle-piece"></i><a href="{{ route('admin.posts.index') }}">All Posts</a></li>
                         <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Add New</a></li>
-                        <li><i class="fa fa-bars"></i><a href="ui-tabs.html">Categories</a></li>
-                        <li><i class="fa fa-share-square-o"></i><a href="ui-social-buttons.html">Tags</a></li>
+                        <li><i class="fa fa-bars"></i><a href="{{ route('admin.categories.index') }}">Categories</a></li>
+                        <li><i class="fa fa-share-square-o"></i><a href="{{ route('admin.tags.index') }}">Tags</a></li>
                     </ul>
                 </li>
                 <li>

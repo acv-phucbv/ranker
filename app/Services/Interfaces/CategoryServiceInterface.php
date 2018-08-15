@@ -2,12 +2,12 @@
 
 namespace App\Services\Interfaces;
 
-use App\Models\Tag;
+use App\Models\Category;
 
-interface TagServiceInterface
+interface CategoryServiceInterface
 {
-    public function createTag(array $inputs);
-    public function deleteTag(Tag $tag);
-    public function updateTag(Tag $tag, array $inputs);
-    public function searchTag(array $param);
+    public function createCategory(array $inputs);
+    public function deleteCategory(Category $category);
+    public function updateCategory(Category $category, array $inputs);
+    public function searchCategory(array $param);
 }

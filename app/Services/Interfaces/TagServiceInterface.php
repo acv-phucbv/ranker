@@ -2,13 +2,12 @@
 
 namespace App\Services\Interfaces;
 
-use App\Models\User;
+use App\Models\Tag;
 
-interface UserServiceInterface
+interface TagServiceInterface
 {
-    public function createUser(array $inputs);
-    public function deleteUser(User $user);
-    public function updateUser(User $user, array $inputs);
-    public function searchUser(array $param);
-    public function changePassword(User $user, array $input);
+    public function createTag(array $inputs);
+    public function deleteTag(Tag $tag);
+    public function updateTag(Tag $tag, array $inputs);
+    public function searchTag(array $param);
 }

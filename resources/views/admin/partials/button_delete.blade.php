@@ -1,58 +1,72 @@
-@section('inline_scripts')
 <script type="text/javascript">
-    $(".delete-row").click(function(e){
-        e.preventDefault();
-        var route = $(this).data('route');
-        var row = $(this).parents('tr');
-        bootbox.confirm({
-            title : '{{ trans('common.confirm') }}',
-            message : "{{ $message ?? trans('common.delete_row_confirm') }}",
-            buttons: {
-                cancel: {
-                    label: '<i class="fa fa-times"></i> {{ trans('common.close') }}',
-                    className: 'dark btn-outline'
-                },
-                confirm: {
-                    label: '<i class="fa fa-check"></i> {{ trans('common.i_agree') }}',
-                    className: 'red btn-outline'
-                }
-            },
-            callback : function (result) {
-                if(result){
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        }
-                    });
-                    $.ajax({
-                        url: route,
-                        type: 'DELETE', // replaced from put
-                        dataType: "JSON",
-                        success: function (response)
-                        {
-                            if(response.success != ''){
-                                $('.layout-message').html('<div class="alert alert-success">\n' +
-                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
-                                    '<span aria-hidden="true">&times;</span>\n' +
-                                    '</button>\n' +
-                                    response.success +
-                                    '</div>');
-                                row.slideUp('slow', function(){ row.remove(); });
-                            }else if(response.error != ''){
-                                $('.layout-message').append('<div class="alert alert-danger">\n' +
-                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
-                                    '<span aria-hidden="true">&times;</span>\n' +
-                                    '</button>\n' +
-                                    response.error +
-                                    '</div>');
-                            }
-                        }
-                    });
-                }
-            }
+    (function() {
 
-        });
-    });
+        var laravel = {
+            initialize: function() {
+                this.methodLinks = $('a[data-method]');
+                this.token = $('a[data-token]');
+                this.registerEvents();
+            },
+
+            registerEvents: function() {
+                this.methodLinks.on('click', this.handleMethod);
+            },
+
+            handleMethod: function(e) {
+                var link = $(this);
+                var httpMethod = link.data('method').toUpperCase();
+                var form;
+
+                // If the data-method attribute is not PUT or DELETE,
+                // then we don't know what to do. Just ignore.
+                if ( $.inArray(httpMethod, ['PUT', 'DELETE']) === - 1 ) {
+                    return;
+                }
+
+                // Allow user to optionally provide data-confirm="Are you sure?"
+                if ( link.data('confirm') ) {
+                    if ( ! laravel.verifyConfirm(link) ) {
+                        return false;
+                    }
+                }
+
+                form = laravel.createForm(link);
+                form.submit();
+
+                e.preventDefault();
+            },
+
+            verifyConfirm: function(link) {
+                return confirm(link.data('confirm'));
+            },
+
+            createForm: function(link) {
+                var form =
+                    $('<form>', {
+                        'method': 'POST',
+                        'action': link.attr('href')
+                    });
+
+                var token =
+                    $('<input>', {
+                        'type': 'hidden',
+                        'name': '_token',
+                        'value': link.data('token')
+                    });
+
+                var hiddenInput =
+                    $('<input>', {
+                        'name': '_method',
+                        'type': 'hidden',
+                        'value': link.data('method')
+                    });
+
+                return form.append(token, hiddenInput)
+                    .appendTo('body');
+            }
+        };
+
+        laravel.initialize();
+
+    })();
 </script>
-@parent
-@endsection

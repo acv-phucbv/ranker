@@ -38,7 +38,7 @@ $('.btn-patch-delete').click(function() {
 
     var callback = function() {
         $('#form-patch').submit();
-    }
+    };
     modalConfirmShow("{{ trans('common.delete_multiple_row_confirm') }}", callback);
 
     return false;
