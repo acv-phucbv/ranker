@@ -2,10 +2,12 @@
 
 namespace App\Services\Production;
 
+use App\Helpers\Helper;
 use App\Models\Tag;
 use App\Services\Interfaces\TagServiceInterface;
 use DB;
 use Excel;
+use Illuminate\Http\Request;
 
 class TagService extends BaseService implements TagServiceInterface
 {
@@ -22,19 +24,6 @@ class TagService extends BaseService implements TagServiceInterface
         return Tag::create($inputs);
     }
 
-    /*
-
-     * Delete Tag Data
-     *
-     * @param Tag $tag
-     *
-     * @return Bool
-     */
-    public function deleteTag(Tag $tag)
-    {
-        return $tag->delete();
-    }
-
     /* Update Tag Data
     *
     * @param array $input
@@ -43,6 +32,7 @@ class TagService extends BaseService implements TagServiceInterface
     */
     public function updateTag(Tag $tag, array $inputs)
     {
+        $inputs['slug'] = str_slug($inputs['name']);
         return $tag->update($inputs);
     }
 
@@ -52,30 +42,44 @@ class TagService extends BaseService implements TagServiceInterface
      * @param array $param
      * @return $tags
      * */
-    public function searchTag(array $param)
+    public function searchTag(Request $request)
     {
-        $tag = Tag::query()->with([
-            'name',
-            'slug',
-            'description'
-        ]);
+        $query = Tag::query();
 
-        if (!empty($param['keyword'])) {
-            $tag->filter($param['keyword']);
+        if (!empty($request->input('search'))) {
+            $query->where('name', 'like', "%{$request->input('search')}%");
         }
 
-        if (!empty($param['name'])) {
-            $tag->where('name', $param['name']);
+        if (!empty($request->input('search'))) {
+            $query->where('slug', 'like', "%{$request->input('search')}%");
         }
 
-        if (!empty($param['slug'])) {
-            $tag->where('slug', $param['slug']);
+        if (!empty($request->input('search'))) {
+            $query->where('description', 'like', "%{$request->input('search')}%");
         }
 
-        if (!empty($param['description'])) {
-            $tag->where('description', $param['description']);
+        if (!empty($request->input('sort'))) {
+            $order = $request->input('order', 'asc');
+            $query->orderBy("{$request->input('sort')}", $order);
         }
 
-        return $tag->orderBy('order', 'ASC')->paginate(config('constants.per_page'));
+        if (!empty($request->input('limit'))) {
+            $limit = $request->input('limit');
+        } else {
+            $limit = Helper::ITEM_PER_PAGE;
+        }
+
+        return $query->select('id', 'name', 'slug', 'description')->paginate($limit);
+    }
+
+    /**
+     * Destroy multiple tags
+     *
+     * @param array $inputs
+     * @return bool
+     */
+    public function batchDelete(array $inputs)
+    {
+        return Tag::destroy($inputs);
     }
 }

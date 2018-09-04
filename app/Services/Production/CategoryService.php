@@ -2,10 +2,12 @@
 
 namespace App\Services\Production;
 
+use App\Helpers\Helper;
 use App\Models\Category;
 use App\Services\Interfaces\CategoryServiceInterface;
 use DB;
 use Excel;
+use Illuminate\Http\Request;
 
 class CategoryService extends BaseService implements CategoryServiceInterface
 {
@@ -18,21 +20,8 @@ class CategoryService extends BaseService implements CategoryServiceInterface
      */
     public function createCategory(array $inputs)
     {
-        $inputs['slug'] = str_slug($inputs['category']);
+        $inputs['slug'] = str_slug($inputs['name']);
         return Category::create($inputs);
-    }
-
-    /*
-
-     * Delete Category Data
-     *
-     * @param Category $category
-     *
-     * @return Bool
-     */
-    public function deleteCategory(Category $category)
-    {
-        return $category->delete();
     }
 
     /* Update Category Data
@@ -43,6 +32,7 @@ class CategoryService extends BaseService implements CategoryServiceInterface
     */
     public function updateCategory(Category $category, array $inputs)
     {
+        $inputs['slug'] = str_slug($inputs['name']);
         return $category->update($inputs);
     }
 
@@ -52,30 +42,44 @@ class CategoryService extends BaseService implements CategoryServiceInterface
      * @param array $param
      * @return $category
      * */
-    public function searchCategory(array $param)
+    public function searchCategory(Request $request)
     {
-        $category = Category::query()->with([
-            'category',
-            'slug',
-            'description'
-        ]);
+        $query = Category::query();
 
-        if (!empty($param['keyword'])) {
-            $category->filter($param['keyword']);
+        if (!empty($request->input('search'))) {
+            $query->where('name', 'like', "%{$request->input('search')}%");
         }
 
-        if (!empty($param['category'])) {
-            $category->where('category', $param['category']);
+        if (!empty($request->input('search'))) {
+            $query->where('slug', 'like', "%{$request->input('search')}%");
         }
 
-        if (!empty($param['slug'])) {
-            $category->where('slug', $param['slug']);
+        if (!empty($request->input('search'))) {
+            $query->where('description', 'like', "%{$request->input('search')}%");
         }
 
-        if (!empty($param['description'])) {
-            $category->where('description', $param['description']);
+        if (!empty($request->input('sort'))) {
+            $order = $request->input('order', 'asc');
+            $query->orderBy("{$request->input('sort')}", $order);
         }
 
-        return $category->orderBy('order', 'ASC')->paginate(config('constants.per_page'));
+        if (!empty($request->input('limit'))) {
+            $limit = $request->input('limit');
+        } else {
+            $limit = Helper::ITEM_PER_PAGE;
+        }
+
+        return $query->select('id', 'name', 'slug', 'description')->paginate($limit);
+    }
+
+    /**
+     * Destroy multiple categories
+     *
+     * @param array $inputs
+     * @return bool
+     */
+    public function batchDelete(array $inputs)
+    {
+        return Category::destroy($inputs);
     }
 }

@@ -19,11 +19,11 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'category', 'slug', 'description'
+        'name', 'slug', 'description'
     ];
 
-    public function setCategoryAttribute($value) {
-        $this->attributes['category'] = ucwords($value);
+    public function setNameAttribute($value) {
+        $this->attributes['name'] = ucwords($value);
     }
 
     public function setDescriptionAttribute($value) {

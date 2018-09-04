@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller as AppController;
+use Illuminate\Http\Request;
 
 class Controller extends AppController
 {
@@ -13,9 +14,5 @@ class Controller extends AppController
     {
         $this->middleware('auth');
         $this->middleware('admin');
-    }
-
-    public function index() {
-        return view('admin.index');
     }
 }

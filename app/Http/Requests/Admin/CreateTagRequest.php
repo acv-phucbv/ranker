@@ -26,7 +26,7 @@ class CreateTagRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:31|unique:tags',
-            'slug' => 'nullable|string|max:255',
+            'slug' => 'nullable|string|max:31|unique:tags',
             'description' => 'nullable|string|max:255',
         ];
     }
