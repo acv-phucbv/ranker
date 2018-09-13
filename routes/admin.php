@@ -11,6 +11,11 @@ Route::get('users', 'UsersController@index')->name('admin.users.index');
 
 //Posts
 Route::get('posts', 'PostsController@index')->name('admin.posts.index');
+Route::get('posts/create', 'PostsController@create')->name('admin.posts.create');
+Route::post('posts', 'PostsController@store')->name('admin.posts.store');
+Route::get('posts/{post}', 'PostsController@edit')->name('admin.posts.edit');
+Route::post('posts/{post}', 'PostsController@update')->name('admin.posts.update');
+Route::delete('posts', 'PostsController@batchDestroy')->name('admin.posts.batch_destroy');
 
 //Categories
 Route::get('categories', 'CategoriesController@index')->name('admin.categories.index');

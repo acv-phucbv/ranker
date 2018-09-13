@@ -31,24 +31,20 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'slug', 'content', 'status', 'category_id', 'auth_id', 'tags_id'
+        'title', 'slug', 'content', 'status', 'category_id', 'auth_id', 'tags_id', 'feature_image'
     ];
 
     protected static $filterable = ['title'];
 
-    public function setTitleAttribute() {
-        return ucwords($this->attributes['title']);
-    }
-
-    public function getSlugAttribute() {
-        return str_slug($this->attributes['title']);
+    public function setTitleAttribute($value) {
+        $this->attributes['title'] = ucwords($value);
     }
 
     /*
      * The post that belong to the user
      */
     public function author() {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User', 'auth_id');
     }
 
     /*
@@ -61,7 +57,15 @@ class Post extends Model
     /*
      * The post has many tags
      */
-    public function tags() {
-        return $this->hasMany('App\Models\Tag');
-    }
+//    public function tags() {
+//        $tags = explode(', ', $this->attributes['tags_id']);
+//        $tagNames = [];
+//        if ($tags && is_array($tags)) {
+//            foreach ($tags as $tag) {
+//                $tagNames[] =
+//            }
+//
+//                return $this->hasMany('App\Models\Tag');
+//        }
+//    }
 }

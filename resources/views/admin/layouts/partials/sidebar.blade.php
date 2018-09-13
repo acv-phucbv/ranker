@@ -25,10 +25,20 @@
             <li class="nav-item @yield('admin.posts')">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-question"></i>
-                    <span class="title">{{ trans('admin.posts') }}</span>
+                    <span class="title">{{ trans('admin.posts.post_menu') }}</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
+                    <li class="nav-item @yield('admin.posts.index')">
+                        <a href="{{ route('admin.posts.index') }}" class="nav-link ">
+                            <span class="title">{{ trans('admin.posts.all_post') }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item @yield('admin.posts.create')">
+                        <a href="{{ route('admin.posts.create') }}" class="nav-link ">
+                            <span class="title">{{ trans('admin.posts.create_post') }}</span>
+                        </a>
+                    </li>
                     <li class="nav-item @yield('admin.categories.index')">
                         <a href="{{ route('admin.categories.index') }}" class="nav-link ">
                             <span class="title">{{ trans('admin.categories') }}</span>

@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     protected $services = [
         Interfaces\TagServiceInterface::class => Production\TagService::class,
         Interfaces\CategoryServiceInterface::class => Production\CategoryService::class,
+        Interfaces\PostServiceInterface::class => Production\PostService::class,
     ];
 
     /**

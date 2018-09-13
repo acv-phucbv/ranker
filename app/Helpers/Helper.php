@@ -6,6 +6,16 @@ class Helper
 {
     const ITEM_PER_PAGE = 10;
 
+    const PUBLIC = 1;
+    const UNPUBLIC = 0;
+
+    public static function get_public() {
+        return [
+            self::PUBLIC => trans('common.public'),
+            self::UNPUBLIC => trans('common.unpublic'),
+        ];
+    }
+
     static function trim_text($text, $limit = 20)
     {
         $text = strip_tags($text);
