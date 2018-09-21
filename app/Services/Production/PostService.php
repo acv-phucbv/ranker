@@ -23,26 +23,28 @@ class PostService extends BaseService implements PostServiceInterface
      */
     public function createPost(array $inputs)
     {
-        $inputs['slug'] = str_slug($inputs['title']);
+        return DB::transaction(function () use ($inputs) {
+            $inputs['slug'] = str_slug($inputs['title']);
 
-        if (isset($inputs['feature_image'])) {
-            $image = $inputs['feature_image'];
-            $year = Carbon::now()->format('Y');
-            $month = Carbon::now()->format('m');
-            $day = Carbon::now()->format('d');
-            $fileName = $inputs['slug'] . '.' . $image->getClientOriginalExtension();
-            $subpath = Carbon::parse(now())->format('Y/m/d');
-            $location = public_path('uploads/images' . DIRECTORY_SEPARATOR . $subpath);
-            $image->move($location, $fileName);
-            $inputs['feature_image'] = $fileName;
-        }
+            if (isset($inputs['feature_image'])) {
+                $image = $inputs['feature_image'];
+                $fileName = $inputs['slug'] . '.' . $image->getClientOriginalExtension();
+                $subpath = Carbon::parse(now())->format('Y/m/d');
+                $location = public_path('uploads/images' . DIRECTORY_SEPARATOR . $subpath);
+                $image->move($location, $fileName);
+                $inputs['feature_image'] = $fileName;
+            }
 
-        if (isset($inputs['tags_id'])) {
-            $inputs['tags_id'] = implode(", ",$inputs['tags_id']);
-        }
-        $inputs['auth_id'] = Auth::user()->id;
+            $inputs['auth_id'] = Auth::user()->id;
 
-        return Post::create($inputs);
+            $post = Post::create($inputs);
+
+            if (isset($inputs['tags_id'])) {
+                $post->tags()->sync($inputs['tags_id'], false);
+            }
+
+            return $post;
+        });
     }
 
     /* Update Post Data
@@ -53,25 +55,32 @@ class PostService extends BaseService implements PostServiceInterface
     */
     public function update(Post $post, array $inputs)
     {
-        $inputs['slug'] = str_slug($inputs['title']);
+        return DB::transaction(function () use ($post, $inputs) {
+            $inputs['slug'] = str_slug($inputs['title']);
 
-        if (isset($inputs['feature_image'])) {
-            $oldImage = $post->feature_image;
-            Storage::delete($oldImage);
-            $image = $inputs['feature_image'];
-            $fileName = $inputs['slug'] . '.' . $image->getClientOriginalExtension();
-            $subpath = Carbon::parse($post->created_at)->format('Y/m/d');
-            $location = public_path('uploads/images' . DIRECTORY_SEPARATOR . $subpath);
-            $image->move($location, $fileName);
-            $inputs['feature_image'] = $fileName;
-        }
+            if (isset($inputs['feature_image'])) {
+                $oldImage = $post->feature_image;
+                Storage::delete($oldImage);
+                $image = $inputs['feature_image'];
+                $fileName = $inputs['slug'] . '.' . $image->getClientOriginalExtension();
+                $subpath = Carbon::parse($post->created_at)->format('Y/m/d');
+                $location = public_path('uploads/images' . DIRECTORY_SEPARATOR . $subpath);
+                $image->move($location, $fileName);
+                $inputs['feature_image'] = $fileName;
+            }
 
-        if (isset($inputs['tags_id'])) {
-            $inputs['tags_id'] = implode(", ",$inputs['tags_id']);
-        }
-        $inputs['auth_id'] = Auth::user()->id;
+            $inputs['auth_id'] = Auth::user()->id;
 
-        return $post->update($inputs);
+            $post->update($inputs);
+
+            if (isset($inputs['tags_id'])) {
+                $post->tags()->sync($inputs['tags_id']);
+            } else {
+                $post->tags()->sync([]);
+            }
+
+            return true;
+        });
     }
 
     /**

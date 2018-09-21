@@ -49,12 +49,17 @@
                                             <span></span>
                                         </label>
                                     </th>
-                                    <th>{{ trans('common.title') }}</th>
-                                    <th>{{ trans('common.author') }}</th>
-                                    <th>{{ trans('common.status') }}</th>
-                                    <th>{{ trans('admin.category') }}</th>
+                                    <th><a href="{{ route('admin.posts.index') }}/?sort=title&order={{ $order }}{{ $search }}">{{ trans('common.title') }}
+                                            <i class="fa fa-sort"></i></a></th>
+                                    <th><a href="{{ route('admin.posts.index') }}/?sort=auth_id&order={{ $order }}{{ $search }}">{{ trans('common.author') }}
+                                            <i class="fa fa-sort"></i></a></th>
+                                    <th><a href="{{ route('admin.posts.index') }}/?sort=status&order={{ $order }}{{ $search }}">{{ trans('common.status') }}
+                                            <i class="fa fa-sort"></i></a></th>
+                                    <th><a href="{{ route('admin.posts.index') }}/?sort=category_id&order={{ $order }}{{ $search }}">{{ trans('admin.category') }}
+                                            <i class="fa fa-sort"></i></a></th>
                                     <th>{{ trans('admin.tags') }}</th>
-                                    <th>{{ trans('common.created_at') }}</th>
+                                    <th><a href="{{ route('admin.posts.index') }}/?sort=created_at&order={{ $order }}{{ $search }}">{{ trans('common.created_at') }}
+                                            <i class="fa fa-sort"></i></a></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -70,7 +75,13 @@
                                         <td>{{ $post->author->username }}</td>
                                         <td>{{ \App\Helpers\Helper::get_public()[$post->status] }}</td>
                                         <td>{{ $post->category->name }}</td>
-                                        <td>{{ explode(', ', $post->tags_id) }}</td>
+                                        <td>
+                                            <div class="tags">
+                                                @foreach($post->tags as $tag)
+                                                    <span class="label label-info">{{ $tag->name }}</span>
+                                                @endforeach
+                                            </div>
+                                        </td>
                                         <td>{{ $post->created_at }}</td>
                                     </tr>
                                 @endforeach

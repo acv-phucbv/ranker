@@ -31,7 +31,7 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'slug', 'content', 'status', 'category_id', 'auth_id', 'tags_id', 'feature_image'
+        'title', 'slug', 'content', 'status', 'category_id', 'auth_id', 'feature_image'
     ];
 
     protected static $filterable = ['title'];
@@ -57,15 +57,7 @@ class Post extends Model
     /*
      * The post has many tags
      */
-//    public function tags() {
-//        $tags = explode(', ', $this->attributes['tags_id']);
-//        $tagNames = [];
-//        if ($tags && is_array($tags)) {
-//            foreach ($tags as $tag) {
-//                $tagNames[] =
-//            }
-//
-//                return $this->hasMany('App\Models\Tag');
-//        }
-//    }
+    public function tags() {
+        return $this->belongsToMany('App\Models\Tag', 'posts_tags');
+    }
 }

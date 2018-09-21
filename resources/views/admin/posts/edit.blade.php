@@ -68,7 +68,7 @@
             <div class="portlet light bordered">
                 <div class="form-group">
                     <label>Tag:</label>
-                    {{ Form::select('tags_id[]', $tags, explode(', ', $post->tags_id), ['id' => 'tag_list', 'class' => 'form-control', 'multiple']) }}
+                    {{ Form::select('tags_id[]', $tags, $postTags, ['id' => 'tag_list', 'class' => 'form-control', 'multiple']) }}
                 </div>
             </div>
             <div class="portlet light bordered">

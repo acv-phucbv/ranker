@@ -69,10 +69,12 @@
                                             <span></span>
                                         </label>
                                     </th>
-                                    <th>{{ trans('common.name') }}</th>
+                                    <th><a href="{{ route('admin.categories.index') }}/?sort=name&order={{ $order }}{{ $search }}">{{ trans('common.name') }}
+                                            <i class="fa fa-sort"></i></a></th>
                                     <th>{{ trans('common.slug') }}</th>
                                     <th>{{ trans('common.description') }}</th>
-                                    <th>Count</th>
+                                    <th><a href="{{ route('admin.categories.index') }}/?sort=count&order={{ $order }}{{ $search }}">{{ trans('common.count') }}
+                                            <i class="fa fa-sort"></i></a></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -87,7 +89,7 @@
                                         <td><a href="{{ route('admin.categories.edit', $category->id) }}">{{ $category->name }}</a></td>
                                         <td>{{ $category->slug }}</td>
                                         <td>{{ $category->description }}</td>
-                                        <td>{{ 1 }}</td>
+                                        <td>{{ $category->posts->count() }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

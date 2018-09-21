@@ -51,16 +51,7 @@ class CategoryService extends BaseService implements CategoryServiceInterface
         }
 
         if (!empty($request->input('search'))) {
-            $query->where('slug', 'like', "%{$request->input('search')}%");
-        }
-
-        if (!empty($request->input('search'))) {
             $query->where('description', 'like', "%{$request->input('search')}%");
-        }
-
-        if (!empty($request->input('sort'))) {
-            $order = $request->input('order', 'asc');
-            $query->orderBy("{$request->input('sort')}", $order);
         }
 
         if (!empty($request->input('limit'))) {
@@ -69,7 +60,17 @@ class CategoryService extends BaseService implements CategoryServiceInterface
             $limit = Helper::ITEM_PER_PAGE;
         }
 
-        return $query->select('id', 'name', 'slug', 'description')->paginate($limit);
+        if (!empty($request->input('sort'))) {
+            $order = $request->input('order', 'asc');
+            if ($request->input('sort') === 'count') {
+                $query->withCount('posts')->orderBy('posts_count', $order);
+            } else {
+                $query->orderBy("{$request->input('sort')}", $order);
+            }
+
+        }
+
+        return $query->paginate($limit);
     }
 
     /**

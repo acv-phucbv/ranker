@@ -30,4 +30,5 @@ return [
     'no_query_results' => 'No query results',
     'public' => 'Public',
     'unpublic' => 'Unpublic',
+    'count' => 'Count'
 ];

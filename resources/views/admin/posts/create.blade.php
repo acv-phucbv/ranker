@@ -83,10 +83,6 @@
                         <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
                     </div>
                 </div>
-                {{--<div class="form-group">--}}
-                {{--<label>Tag:</label>--}}
-                {{--{{ Form::select('feature_image', $tags, null, ['class' => 'form-control', 'multiple']) }}--}}
-                {{--</div>--}}
             </div>
         </div>
         {!! Form::close() !!}
@@ -101,12 +97,6 @@
 @endsection
 
 @section('inline_scripts')
-    <script>
-        CKEDITOR.replace('post_content', {
-            height: 400,
-            language: 'vi'
-        });
-    </script>
     <script>
         $(document).ready(function () {
             $('#tag_list').select2({

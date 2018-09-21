@@ -19,9 +19,6 @@
                     @endif
                 </a>
             </li>
-            <li class="heading">
-                <h3 class="uppercase">Posts</h3>
-            </li>
             <li class="nav-item @yield('admin.posts')">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-question"></i>

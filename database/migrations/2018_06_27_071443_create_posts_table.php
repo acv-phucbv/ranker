@@ -21,7 +21,6 @@ class CreatePostsTable extends Migration
             $table->string('status')->default(1);
             $table->string('category_id');
             $table->string('auth_id');
-            $table->string('tags_id')->nullable();
             $table->string('feature_image')->nullable();
             $table->timestamps();
             $table->softDeletes();

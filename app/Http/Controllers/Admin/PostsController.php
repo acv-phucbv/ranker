@@ -50,7 +50,11 @@ class PostsController extends AdminController
     public function edit(Post $post) {
         $categories = Category::pluck('name', 'id');
         $tags = Tag::pluck('name', 'id');
-        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
+        $postTags = [];
+        foreach ($post->tags as $tag) {
+            $postTags[] = $tag->id;
+        }
+        return view('admin.posts.edit', compact('post', 'categories', 'tags', 'postTags'));
     }
 
     public function update(Post $post, UpdatePostRequest $request) {
