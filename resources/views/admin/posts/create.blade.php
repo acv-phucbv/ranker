@@ -93,15 +93,20 @@
 @section('page_plugin_scripts')
     <script src="{{ asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/global/plugins/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/global/plugins/ckfinder/ckfinder.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('inline_scripts')
     <script>
+        CKEDITOR.replace('post_content', {
+            height: 400,
+            language: 'vi',
+        });
         $(document).ready(function () {
             $('#tag_list').select2({
                 placeholder: 'Tags',
-                tags: true
+                tags: true,
             });
         });
     </script>
