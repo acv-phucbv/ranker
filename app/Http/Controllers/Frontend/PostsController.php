@@ -10,7 +10,7 @@ class PostsController extends FrontendController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('edit')->except('index', 'show');
+//        $this->middleware('edit')->except('index', 'show');
     }
 
     public function index() {

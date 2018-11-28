@@ -17,4 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'Frontend\HomeController@index')->name('home');
+Route::get('/', 'Frontend\Controller@index')->name('home');
+Route::get('/home', function () {
+    return redirect('/');
+});
+Route::get('/posts', 'Frontend\PostsController@index')->name('frontend.posts');

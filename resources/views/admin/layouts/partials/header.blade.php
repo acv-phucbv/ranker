@@ -5,7 +5,7 @@
         <!-- BEGIN LOGO -->
         <div class="page-logo">
             <a href="{{ route('home') }}">
-                <img src="{{asset('assets/layouts/layout/img/logo.png')}}" alt="logo" class="logo-default"/> </a>
+                <img src="{{asset('uploads/img/logo.png')}}" alt="logo" class="logo-default"/> </a>
             <div class="menu-toggler sidebar-toggler">
                 <span></span>
             </div>
@@ -25,7 +25,7 @@
                 <li class="dropdown dropdown-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                        data-close-others="true">
-                        <img alt="" class="img-circle" src="{{asset('assets/layouts/layout/img/avatar3_small.jpg')}}"/>
+                        <img alt="" class="img-circle" src="{{asset('uploads/img/avatar3_small.jpg')}}"/>
                         <span class="username username-hide-on-mobile"> Admin </span>
                         <i class="fa fa-angle-down"></i>
                     </a>
